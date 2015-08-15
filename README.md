@@ -26,7 +26,7 @@ Minimal test spies, stubs and mocks module
     expect(betrayedAdd.invoked).to.equal(1);
 
 ## Stubs
-Betray does not offer a stub API or the like :disappoineted:. Minimal! Better! Extensible!
+Betray does not offer a stub API or the like :disappointed:. Minimal! Better! Extensible!
 
     var math = {
       add: function(x, y) {
