@@ -1,0 +1,29 @@
+{
+  "name": "betray",
+  "version": "1.0.0",
+  "description": "Minimal test spies, stubs and mocks module",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec --recursive test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saintedlama/betray.git"
+  },
+  "keywords": [
+    "mock",
+    "test",
+    "spies",
+    "stubs"
+  ],
+  "author": "'Christoph <'christoph.walcher@gmail.com'>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saintedlama/betray/issues"
+  },
+  "homepage": "https://github.com/saintedlama/betray#readme",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  }
+}
