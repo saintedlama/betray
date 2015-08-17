@@ -9,6 +9,7 @@ Minimal test spies, stubs and mocks module
 
 ## Creating a spy
 
+```javascript
     var betray = require('betray');
     
     var math = {
@@ -24,10 +25,12 @@ Minimal test spies, stubs and mocks module
     // Original function was invoked and spies invocation counter incremented
     expect(sum).to.equal(3);
     expect(betrayedAdd.invoked).to.equal(1);
+```
 
 ## Stubs
-Betray does not offer a stub API or the like :disappointed:. Minimal! Better! Extensible!
+Betray does not offer a stub API or the like :disappointed:. Minimal! Better! Extensible! :dancers:
 
+```javascript
     var math = {
       add: function(x, y) {
         return x + y;
@@ -42,9 +45,11 @@ Betray does not offer a stub API or the like :disappointed:. Minimal! Better! Ex
     
     // Invocation counter is incremented as well
     expect(betrayedThrowError.invoked).to.equal(1);
+```
 
 **simpler**
-    
+
+```javascript
     var math = {
       add: function(x, y) {
         return x + y;
@@ -59,9 +64,11 @@ Betray does not offer a stub API or the like :disappointed:. Minimal! Better! Ex
     
     // Invocation counter is incremented as well
     expect(betrayedThrowError.invoked).to.equal(1);
-    
-**even simple**
+```
 
+**even simpler**
+
+```javascript
     var math = {
       add: function(x, y) {
         return x + y;
@@ -76,11 +83,13 @@ Betray does not offer a stub API or the like :disappointed:. Minimal! Better! Ex
     
     // Invocation counter is incremented as well
     expect(betrayedThrowError.invoked).to.equal(1);
-    
+```
+
 ## Mocks
 As mocks are "pre-programmed with expectations which form a specification of the calls they are expected to receive" and
 we betray in a minimal way we'll use chai expect syntax to create our own mock!
 
+```javascript
     var math = {
       add: function(x, y) {
         return x + y;
@@ -104,3 +113,4 @@ we betray in a minimal way we'll use chai expect syntax to create our own mock!
     // Will not invoke the original add function but will return 1 for every call. 
     math.add(2);
     math.add(3); // Will throw because we expected second invocation to have 1 as y argument
+```
