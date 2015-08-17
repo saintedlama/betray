@@ -1,0 +1,6 @@
+coverage
+.idea
+.gitattributes
+*.tgz
+*~
+.travis.yml
