@@ -103,13 +103,13 @@ describe('betray', function() {
     };
 
     betray(math, 'add', [{
-      match  : function() { return this.add.invoked == 0 },
+      match  : function() { return this.add.invoked == 1 },
       handle : function(y) {
         expect(y).to.equal(2);
         return 1;
       }
     },{
-      match  : function() { return this.add.invoked == 1 },
+      match  : function() { return this.add.invoked == 2 },
       handle : function(y) {
         expect(y).to.equal(3);
         return 2;
@@ -158,5 +158,24 @@ describe('betray', function() {
 
     var constant = math.add(2, 3);
     expect(constant).to.deep.equal({ result : 6 });
+  });
+
+  it('should expose convenience functions to betray a numbered call', function() {
+    var math = {
+      add: function(x, y) {
+        return x + y;
+      }
+    };
+
+    betray(math, 'add')
+      .onFirstCall(function() { return 1; })
+      .onSecondCall(function() { return 2; })
+      .onThirdCall(function() { return 3; })
+      .onCall(4, function() { return 4; });
+
+    expect(math.add(2, 3)).to.equal(1);
+    expect(math.add(2, 3)).to.equal(2);
+    expect(math.add(2, 3)).to.equal(3);
+    expect(math.add(2, 3)).to.equal(4);
   });
 });

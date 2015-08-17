@@ -1,7 +1,7 @@
 # Betray
 [![Build Status](https://travis-ci.org/saintedlama/betray.svg?branch=master)](https://travis-ci.org/saintedlama/betray)
 
-Minimal test spies, stubs and mocks module
+Minimal test spies, stubs and mocks module.
 
 ## Installation
 
@@ -98,21 +98,52 @@ var math = {
   }
 };
 
-var betrayedAdd = betray(math, 'add', [{ 
-  match  : function() { this.invoked == 0 }, 
+betray(math, 'add', [{
+  match  : function() { return this.add.invoked == 1 },
   handle : function(y) {
-   expect(y).to.equal(2);
-   return 1; 
+    expect(y).to.equal(2);
+    return 1;
   }
-},{ 
-  match  : function() { this.invoked == 1 },  
+},{
+  match  : function() { return this.add.invoked == 2 },
   handle : function(y) {
-   expect(y).to.equal(1);
-   return 2; 
+    expect(y).to.equal(3);
+    return 2;
   }
 }]);
 
-// Will not invoke the original add function but will return 1 for every call. 
+// Will not invoke the original add function but will return 1 for every call.
 math.add(2);
-math.add(3); // Will throw because we expected second invocation to have 1 as y argument
+math.add(3);
+```
+
+**simpler**
+
+Betray implements some convenience functions to match specific calls
+ 
+* onFirstCall(fn)
+* onSecondCall(fn)
+* onThirdCall(fn)
+* onCall(num, fn)
+
+```javascript
+var math = {
+  add: function(x, y) {
+    return x + y;
+  }
+};
+
+betray(math, 'add')
+  .onFirstCall(function(y) {
+    expect(y).to.equal(2);
+    return 1;
+  })
+  .onSecondCall(function(y) {
+    expect(y).to.equal(3);
+    return 2;
+  });
+
+// Will not invoke the original add function but will return 1 for every call.
+math.add(2);
+math.add(3);
 ```
