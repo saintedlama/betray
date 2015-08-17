@@ -1,12 +1,27 @@
+var util = require('util');
+
 function betray(obj, fn, strategies) {
   var origFn = obj[fn];
-  strategies = strategies || [];
 
   if (!origFn) {
     throw new Error('Could not find a function ' + fn + ' to betray!');
   }
 
+  if (typeof origFn != 'function') {
+    throw new Error('Key ' +  fn + ' is not a function!');
+  }
+
+  strategies = strategies || [];
+
+  if (typeof strategies == 'function') {
+    strategies = [forAll(strategies)];
+  } else if (!util.isArray(strategies)) {
+    var result = strategies;
+    strategies = [forAll(function() { return result; })];
+  }
+
   var betrayed = function() {
+
     if (strategies.length > 0) {
       for (var i =0;i<strategies.length;i++) {
         if (strategies[i].match.apply(this, arguments)) {
@@ -47,4 +62,10 @@ function betray(obj, fn, strategies) {
   return betrayed;
 }
 
+function forAll(handle) {
+  return {
+    match : function() { return true; },
+    handle : handle
+  }
+}
 module.exports = betray;

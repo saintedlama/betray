@@ -120,4 +120,43 @@ describe('betray', function() {
     math.add(2);
     math.add(3);
   });
+
+  it('should betray a function with another function', function() {
+    var math = {
+      add: function(x, y) {
+        return x + y;
+      }
+    };
+
+    betray(math, 'add', function(x, y) { return x*y; });
+
+    var multiple = math.add(2, 3);
+    expect(multiple).to.equal(6);
+  });
+
+  it('should accept primitive object params to betray a function', function() {
+    var math = {
+      add: function(x, y) {
+        return x + y;
+      }
+    };
+
+    betray(math, 'add', 6);
+
+    var constant = math.add(2, 3);
+    expect(constant).to.equal(6);
+  });
+
+  it('should accept object params to betray a function', function() {
+    var math = {
+      add: function(x, y) {
+        return x + y;
+      }
+    };
+
+    betray(math, 'add', { result : 6 });
+
+    var constant = math.add(2, 3);
+    expect(constant).to.deep.equal({ result : 6 });
+  });
 });
