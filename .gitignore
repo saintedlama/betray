@@ -15,3 +15,4 @@ test_tmp/
 npm-debug.log
 *~
 *.swp
+*.tgz
