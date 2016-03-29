@@ -178,4 +178,20 @@ describe('betray', function() {
     expect(math.add(2, 3)).to.equal(3);
     expect(math.add(2, 3)).to.equal(4);
   });
+
+
+  it('should record and restore betrayed functions', function() {
+    var betrayed = betray.record();
+    var math = {
+      throwError: function() {
+        throw new Error('Restored');
+      }
+    };
+
+    betrayed(math, 'throwError');
+    betrayed.restoreAll();
+
+    expect(math.throwError.restore).to.not.exist;
+    expect(math.throwError).to.throw(Error);
+  });
 });

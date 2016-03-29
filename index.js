@@ -87,4 +87,26 @@ function forAll(handle) {
     handle : handle
   }
 }
+
+function record() {
+  var recorded = [];
+
+  var tracker = function(obj, fn, strategies) {
+    var betrayed = betray(obj, fn, strategies);
+
+    recorded.push(betrayed);
+
+    return betrayed;
+  };
+
+  tracker.restoreAll = function() {
+    recorded.forEach(function(betrayed) {
+      betrayed.restore();
+    });
+  };
+
+  return tracker;
+}
+
 module.exports = betray;
+module.exports.record = record;
