@@ -30,6 +30,7 @@ expect(betrayedAdd.invoked).to.equal(1);
 ```
 
 ## Stubs
+
 Betray does not offer a stub API or the like :disappointed:. Minimal! Better! Extensible! :dancers:
 
 ```javascript
@@ -88,6 +89,7 @@ expect(betrayedThrowError.invoked).to.equal(1);
 ```
 
 ## Mocks
+
 As mocks are "pre-programmed with expectations which form a specification of the calls they are expected to receive" and
 we betray in a minimal way we'll use chai expect syntax to create our own mock!
 
@@ -147,3 +149,25 @@ betray(math, 'add')
 math.add(2);
 math.add(3);
 ```
+
+## Tests and restoring
+
+When using betray in for example mocha you might want to betray some functionality **before** running tests and to 
+restore all betrayed functionality **after** running tests. Betray is here to help:
+
+```js
+const betray = require('betray');
+
+describe('something', () => {
+    let betrayed;
+
+    beforeEach(() => { betrayed = betray.record(); });
+    afterEach(() => betrayed.restoreAll());
+
+    it('should do something', () => {
+        // Use betrayed instead of betray
+    });
+});
+```
+
+Never forget restoring betrayed functions again :clap:
