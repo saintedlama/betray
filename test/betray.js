@@ -2,6 +2,80 @@ var betray = require('../');
 var expect = require('chai').expect;
 
 describe('betray', function() {
+  describe('api documentation', function() {
+    it('should invoke a single strategy for all calls', function() {
+      var math = {
+        add: function(x, y) {
+          return x + y;
+        }
+      };
+
+      betray(math, 'add', function(x) { return x; });
+      // added has a value of 4, since the first argument is returned
+
+      expect(math.add(4, 10)).to.equal(4);
+    });
+
+    it('should return an object if passed as strategy', function() {
+      var math = {
+        add: function(x, y) {
+          return x + y;
+        }
+      };
+
+      betray(math, 'add', 4);
+
+      var added = math.add(4, 10);
+      // added has a value of 4, since 4 is returned for every call.
+      expect(added).to.equal(4);
+    });
+
+    it('should invoke matching strategy when passing a strategy array', function() {
+      var math = {
+        add: function(x, y) {
+          return x + y;
+        }
+      };
+
+      // For all x values lower than 4 return x
+      var matchLowerThen = {
+        match: function(x, y) {
+          return x < 4;
+        },
+
+        handle: function(x, y) {
+          return x;
+        }
+      };
+
+      // For all x values greater than 4 return y
+      var matchGreaterThen = {
+        match: function(x, y) {
+          return x > 4;
+        },
+
+        handle: function(x, y) {
+          return y;
+        }
+      };
+
+      betray(math, 'add', [matchLowerThen, matchGreaterThen]);
+
+      var addedLowerThen = math.add(3, 10);
+      // addedLowerThen has a value of 3, since matchLowerThen strategy matched which returned x
+      expect(addedLowerThen).to.equal(3);
+
+      var addedGreaterThen = math.add(5, 10);
+      // addedGreaterThen has a value of 10, since matchGreaterThen strategy matched which returned x
+      expect(addedGreaterThen).to.equal(10);
+
+      var addedOriginal = math.add(4, 10);
+      // addedOriginal has a value of 14, since no strategy matched and the original function is invoked
+      expect(addedOriginal).to.equal(14);
+
+    })
+  });
+
   it('should betray a function', function() {
     var math = {
       add: function(x, y) {

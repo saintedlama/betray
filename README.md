@@ -12,9 +12,9 @@ Minimal test spies, stubs and mocks module.
 ## Creating a spy
 
 ```javascript
-var betray = require('betray');
+const betray = require('betray');
 
-var math = {
+const math = {
   add: function(x, y) {
     return x + y;
   }
@@ -171,3 +171,128 @@ describe('something', () => {
 ```
 
 Never forget restoring betrayed functions again :clap:
+
+# API documentation
+
+Code examples are runnable mocha tests in tests/betray.js
+
+### betray(object, functionName, strategies)
+Betray a function named `functionName` of object `object` and return the betrayed function.
+
+Strategies accepts a `function`, `object` or an array. If a function is specified this function is invoked
+whenever the original function (object and functionName) are invoked with all parameters of the original function call. If 
+an object is passed this object is returned for every function call of the original function instead invoking the original 
+function.
+If an array is passed betray expects each item to expose a `match` and `handle` function. `match` is called with the arguments
+of the original function and only if `match` returns a truthy value `handle` is called. In case match matches a function
+call the strategy evaluation breaks. The original function is not called.
+
+**Strategy Examples**
+
+**Passing a single function**
+
+```
+var betray = require('betray');
+var math = {
+  add: function(x, y) {
+    return x + y;
+  }
+};
+
+betray(math, 'add', function(x) { return x; });
+// added has a value of 4, since the first argument is returned
+```
+
+**Passing an object**
+
+```
+var betray = require('betray');
+var math = {
+  add: function(x, y) {
+    return x + y;
+  }
+};
+
+betray(math, 'add', 4);
+
+var added = math.add(4, 10);
+// added has a value of 4, since 4 is returned for every call.
+```
+
+**Passing a function array**
+
+```
+var betray = require('betray');
+var math = {
+  add: function(x, y) {
+    return x + y;
+  }
+};
+
+// For all x values lower than 4 return x
+var matchLowerThen = {
+  match: function(x, y) {
+    return x < 4;
+  },
+
+  handle: function(x, y) {
+    return x;
+  }
+};
+
+// For all x values greater than 4 return y
+var matchGreaterThen = {
+  match: function(x, y) {
+    return x > 4;
+  },
+
+  handle: function(x, y) {
+    return y;
+  }
+};
+
+betray(math, 'add', [matchLowerThen, matchGreaterThen]);
+
+var addedLowerThen = math.add(3, 10);
+// addedLowerThen has a value of 3, since matchLowerThen strategy matched which returned x
+
+var addedGreaterThen = math.add(5, 10);
+// addedGreaterThen has a value of 10, since matchGreaterThen strategy matched which returned x
+
+var addedOriginal = math.add(4, 10);
+// addedOriginal has a value of 14, since no strategy matched and the original function is invoked
+```
+
+
+### betray.record()
+Returns an instance of betray that records betrayed functions and exposes a `restoreAll` function to restore all betrayed functions.
+
+### betrayed
+
+#### betrayed.invoked
+TBD
+
+#### betrayed.invocations
+TBD
+
+#### betrayed.restore
+TBD
+
+#### betrayed.when
+TBD
+
+#### betrayed.onCall
+TBD
+
+#### betrayed.onFirstCall
+TBD
+
+#### betrayed.onSecondCall
+TBD
+
+#### betrayed.onThirdCall
+TBD
+
+#### betrayed.forAll
+TBD
+
