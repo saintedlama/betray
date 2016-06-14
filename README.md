@@ -1,5 +1,6 @@
 # Betray
 [![Build Status](https://travis-ci.org/saintedlama/betray.svg?branch=master)](https://travis-ci.org/saintedlama/betray)
+[![Coverage Status](https://coveralls.io/repos/github/saintedlama/betray/badge.svg?branch=master)](https://coveralls.io/github/saintedlama/betray?branch=master)
 
 Minimal test spies, stubs and mocks module.
 
