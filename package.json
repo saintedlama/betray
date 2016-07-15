@@ -1,6 +1,6 @@
 {
   "name": "betray",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Minimal test spies, stubs and mocks module",
   "main": "index.js",
   "scripts": {
