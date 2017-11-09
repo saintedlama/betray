@@ -1,7 +1,7 @@
 # Betray
 [![Build Status](https://travis-ci.org/saintedlama/betray.svg?branch=master)](https://travis-ci.org/saintedlama/betray)
 [![Coverage Status](https://coveralls.io/repos/github/saintedlama/betray/badge.svg?branch=master)](https://coveralls.io/github/saintedlama/betray?branch=master)
-[![betray analyzed by Codellama.io](https://app.codellama.io/api/badges/5a036040c17de525cd84b2c2/0193b38210c424f7dd5f8ea26b5d8f78)](https://app.codellama.io/repositories/5a036040c17de525cd84b2c2)
+[![betray analyzed by Codellama.io](https://app.codellama.io/api/badges/5a0438e31b4c363a0f9427c4/bb531760d98c287942b441dc779e2988)](https://app.codellama.io/repositories/5a0438e31b4c363a0f9427c4)
 
 Minimal test spies, stubs and mocks module.
 
